@@ -2,29 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Laksh Patel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laksh Patel — Runner Hurdles</title>
   <link rel="stylesheet" href="assets/style.css" />
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r136/three.min.js"></script>
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Hi, I’m Laksh Patel</h1>
-    <p>IMSA ’25 • AI & Robotics Researcher</p>
-  </header>
-  <section id="about">
-    <h2>About Me</h2>
-    <p>Junior at Illinois Mathematics and Science Academy, passionate about multi-agent systems and optimization.</p>
-  </section>
-  <section id="projects">
-    <h2>Projects</h2>
-    <ul>
-      <li>SPARC Research Program – Mentoring high-schoolers in published AI research.</li>
-      <li>Adversarial Formation Control – Robust multi-agent coordination.</li>
-      <li>Rocket Trajectory Optimizer – C# & Python hybrid solver.</li>
-    </ul>
-  </section>
-  <footer>
-    <p>© 2025 Laksh Patel</p>
-  </footer>
+  <canvas id="scene"></canvas>
+  <!-- Spacer to allow scrolling -->
+  <div id="scroll-container">
+    <div style="height:400vh"></div>
+  </div>
+
+  <script>
+  // ——— Scene Setup ———
+  const canvas = document.getElementById('scene');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf0f0f0);
+
+  const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
+  camera.position.set(0, 2, 10);
+
+  // ——— Lights ———
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(5,10,7);
+  scene.add(light);
+
+  // ——— Ground ———
+  const groundMat = new THREE.MeshPhongMaterial({color:0x999999});
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 10), groundMat);
+  ground.rotation.x = -Math.PI/2;
+  scene.add(ground);
+
+  // ——— Runner (simple capsule) ———
+  const runnerMat = new THREE.MeshStandardMaterial({color:0x0044ff});
+  const runner = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.3, 0.5, 4, 8),
+    runnerMat
+  );
+  runner.position.set(0,0.75,0);
+  scene.add(runner);
+
+  // ——— Hurdles ———
+  const hurdleMat = new THREE.MeshStandardMaterial({color:0xff4400});
+  const hurdlePositions = [5, 10, 15, 20, 25];
+  const hurdles = hurdlePositions.map(x => {
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(1,1,0.2), hurdleMat);
+    bar.position.set(x, 0.5, 0);
+    scene.add(bar);
+    return bar;
+  });
+
+  // ——— Animation Loop ———
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ——— Scroll-linked Timeline ———
+  gsap.registerPlugin(ScrollTrigger);
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#scroll-container",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true
+    }
+  });
+
+  // As the user scrolls, we move the runner along X, and jump at hurdles
+  hurdlePositions.forEach((hx, i) => {
+    tl.to(runner.position, { 
+      x: hx, 
+      duration: 1  
+    });
+    tl.to(runner.position, { 
+      y: 2, 
+      duration: 0.2, 
+      ease: "power1.out" 
+    });
+    tl.to(runner.position, { 
+      y: 0.75, 
+      duration: 0.2, 
+      ease: "bounce.out" 
+    });
+  });
+  // final push past last hurdle
+  tl.to(runner.position, { x: hurdlePositions[hurdlePositions.length-1] + 5, duration: 1 });
+  </script>
 </body>
 </html>
