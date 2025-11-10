@@ -139,6 +139,7 @@
             opacity: 0.8;
         }
 
+        /* Base icon styling */
         .social-links {
             display: flex;
             justify-content: center;
@@ -149,11 +150,25 @@
         .social-icon {
             width: 32px;
             height: 32px;
-            transition: transform 0.2s ease;
+            filter: brightness(0); /* make sure they render black in light mode */
+            transition: transform 0.2s ease, filter 0.3s ease;
+        }
+        .social-icon {
+            filter: brightness(0);
+            transition: transform 0.2s ease, filter 0.3s ease;
         }
 
+        /* When light mode is explicitly set */
+        body.lightmode .social-icon {
+            filter: brightness(0);
+        }
         .social-icon:hover {
             transform: scale(1.1);
+        }
+
+        /* White icons when dark mode is active */
+        body.darkmode .social-icon {
+            filter: invert(1) brightness(0); /* cancels global invert → makes them white */
         }
 
         /* Buttons */
@@ -836,43 +851,47 @@
             });
         });
     </script>
-  <script>
+ <script>
   const toggle = document.getElementById('darkModeToggle');
   const wrapper = document.getElementById('page-wrapper');
-  let darkMode = false;
+  let darkMode = false; // Start in dark mode
 
   function applyMediaCounterInvert() {
-    // Only re-invert images and videos (keep canvas inverted)
-    document.querySelectorAll('img, video').forEach(el => {
+    document.querySelectorAll('img:not(.social-icon), video').forEach(el => {
       el.style.filter = darkMode ? 'invert(1) hue-rotate(180deg)' : '';
+      el.style.transition = 'filter 0.3s ease';
     });
   }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    wrapper.style.filter = 'invert(1) hue-rotate(180deg)';
+    document.body.style.backgroundColor = 'black';
+    document.body.classList.add('darkmode');
+    toggle.textContent = '☀️';
+    applyMediaCounterInvert();
+  });
 
   toggle.addEventListener('click', () => {
     darkMode = !darkMode;
 
-    // Smooth transitions
     wrapper.style.transition = 'filter 0.4s ease, background-color 0.4s ease';
     document.body.style.transition = 'background-color 0.4s ease';
 
     if (darkMode) {
-      // Invert everything and switch body bg to black
       wrapper.style.filter = 'invert(1) hue-rotate(180deg)';
       document.body.style.backgroundColor = 'black';
+      document.body.classList.add('darkmode');
       toggle.textContent = '☀️';
     } else {
-      // Restore normal mode
       wrapper.style.filter = 'none';
       document.body.style.backgroundColor = 'white';
+      document.body.classList.remove('darkmode');
       toggle.textContent = '🌙';
     }
 
     applyMediaCounterInvert();
   });
-
-  // Keep new elements consistent (e.g. images added later)
-  const observer = new MutationObserver(applyMediaCounterInvert);
-  observer.observe(document.documentElement, { childList: true, subtree: true });
 </script>
+
 </body>
 </html>
