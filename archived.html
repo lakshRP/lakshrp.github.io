@@ -28,17 +28,25 @@
 
     /* HERO */
     .hero {
-      display: flex; align-items: center; height: 100vh;
-      padding: 0 5%; position: relative; overflow: hidden;
+      display: flex;
+      align-items: center;
+      height: 100vh;
+      padding: 0 5%;
+      position: relative;
+      overflow: hidden;
     }
-    .hero-text { max-width: 600px; }
-    .intro { font-size: clamp(1.2rem,4vw,2rem); margin-bottom: .5rem; }
+    .hero-text { max-width: 600px; text-align: center; }
+    .intro { font-size: clamp(1.2rem,4vw,2rem); margin-bottom: .5rem; text-align: center; }
     .name {
-      font-size: clamp(2.5rem,10vw,4rem); font-weight: 600;
+      font-size: clamp(2.5rem,10vw,4rem);
+      font-weight: 600;
       background: linear-gradient(270deg, var(--pink), var(--pink-light), var(--pink));
       background-size: 600% 600%;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: gradientMove 8s ease infinite; margin-bottom: 1rem;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 8s ease infinite;
+      margin-bottom: 1rem;
+      text-align: center;
     }
     @keyframes gradientMove {
       0%   { background-position: 0% 50%; }
@@ -46,33 +54,65 @@
       100% { background-position: 0% 50%; }
     }
     .description {
-      font-size: clamp(1.2rem,5vw,2rem); line-height: 1.5;
+      font-size: clamp(1.2rem,5vw,2rem);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .hero-email {
+      font-size: 1rem;
       margin-bottom: 2rem;
+      color: #eee;
+      text-align: center;
+    }
+    .hero-email a {
+      color: var(--pink);
+      font-weight: 600;
     }
     .avatar {
-      position: absolute; bottom: 0; right: 0; width: 60vw;
-      pointer-events: none; z-index: -1;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 60vw;
+      pointer-events: none;
+      z-index: -1;
       transition: opacity .5s ease, transform .5s ease;
     }
+    .svg-top {
+      position: absolute;
+      top: 0;
+      left: 55%;
+      transform: translateX(-55%);
+      width: 40vw;
+      pointer-events: none;
+      z-index: -1;
+    }
+
     /* SOCIAL ICON LINKS */
     .social-links {
-      display: flex; gap: 1rem; margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      justify-content: center;
     }
     .social-icon {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       filter: brightness(0) invert(1);
       transition: transform .2s ease;
     }
     .social-icon:hover { transform: scale(1.1); }
 
-    .svg-top {
-      position: absolute; top: 0; left: 55%; transform: translateX(-55%);
-      width: 40vw; pointer-events: none; z-index: -1;
-    }
     .down-arrow {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      width: 24px; height: 24px; fill: var(--pink);
-      animation: bounce 2s infinite; cursor: pointer;
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      fill: var(--pink);
+      animation: bounce 2s infinite;
+      cursor: pointer;
     }
     @keyframes bounce {
       0%,100% { transform: translate(-50%,0); }
@@ -82,51 +122,233 @@
       .down-arrow, .avatar, .svg-top { display: none; }
     }
 
+    /* SECTIONS (Experience, Education, Awards, Projects) */
+    .section-block {
+      background: var(--darker);
+      padding: 4rem 5%;
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-heading {
+      font-size: clamp(2rem, 8vw, 3rem);
+      color: var(--pink);
+      margin-bottom: 2rem;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* EXPERIENCE / EDUCATION CARDS */
+    .info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.info-card {
+   background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: .75rem;
+  width: 100%;
+  padding: 1.6rem 1.8rem;
+}
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--pink-light));
+      border-top-left-radius: .75rem;
+    }
+  
+    .info-role {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: .25rem;
+      text-align: center;
+    }
+    .info-meta {
+      font-size: .9rem;
+      color: var(--pink-light);
+      opacity: .85;
+      margin-bottom: .75rem;
+      text-align: center;
+    }
+    .info-body {
+      font-size: .9rem;
+      line-height: 1.5;
+      opacity: .9;
+    }
+    .info-body b { color: var(--pink-light); }
+    .info-tags {
+      margin-top: .7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      justify-content: center;
+    }
+    .info-tag {
+      border-radius: .5rem;
+      border: 1px solid var(--tag-border);
+      background: var(--tag-bg);
+      padding: .18rem .55rem;
+      font-size: .75rem;
+    }
+
+    /* EDUCATION SINGLE CARD STYLE */
+    .edu-card {
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .edu-card p {
+      font-size: .95rem;
+      line-height: 1.6;
+      margin-bottom: .6rem;
+      opacity: .9;
+    }
+    .edu-card a {
+      color: var(--pink-light);
+      text-decoration: underline;
+    }
+
+    /* AWARDS GRID */
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .award-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: .75rem;
+      padding: 1.2rem 1.3rem;
+      backdrop-filter: blur(10px);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .award-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 14px rgba(255,255,255,0.25);
+    }
+    .award-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: .25rem;
+      text-align: center;
+    }
+    .award-title a {
+      color: var(--pink-light);
+      text-decoration: underline;
+    }
+    .award-org {
+      font-size: .85rem;
+      color: var(--pink-light);
+      opacity: .8;
+      margin-bottom: .45rem;
+      text-align: center;
+    }
+    .award-desc {
+      font-size: .85rem;
+      opacity: .9;
+      line-height: 1.4;
+      text-align: center;
+    }
+
     /* PROJECTS & SWITCH */
-    .projects { background: var(--darker); padding: 4rem 5%; }
+    .projects {
+      background: var(--darker);
+      padding: 4rem 5%;
+    }
     .projects-header {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      max-width: 1100px;
+      margin-inline: auto;
     }
-    .section-title { font-size: clamp(2rem,8vw,3rem); color: var(--pink); }
+    .section-title {
+      font-size: clamp(2rem,8vw,3rem);
+      color: var(--pink);
+      text-align: center;
+      width: 100%;
+    }
     .format-switch {
-      display: flex; align-items: center; gap: .5rem; user-select: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      user-select: none;
     }
+
     .switch { position: relative; width: 50px; height: 28px; }
     .switch input { opacity: 0; width: 0; height: 0; }
     .slider {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background: #555; border-radius: 28px; transition: .4s;
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #555;
+      border-radius: 28px;
+      transition: .4s;
     }
     .slider:before {
-      content: ""; position: absolute; height: 22px; width: 22px;
-      left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .4s;
+      content: "";
+      position: absolute;
+      height: 22px; width: 22px;
+      left: 3px; bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: .4s;
     }
     .switch input:checked + .slider { background: var(--pink); }
     .switch input:checked + .slider:before { transform: translateX(22px); }
-    .switch-label { font-size: clamp(.9rem,2vw,1rem); color: var(--text); }
+    .switch-label {
+      font-size: clamp(.9rem,2vw,1rem);
+      color: var(--text);
+    }
 
     .projects-grid.condensed {
-      column-count: 3; column-gap: 1.5rem;
+      column-count: 3;
+      column-gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
     }
     @media (max-width:900px) { .projects-grid.condensed { column-count: 2; } }
     @media (max-width:600px) { .projects-grid.condensed { column-count: 1; } }
 
     .projects-grid.auto-expand .project-card { padding-bottom: 2rem; }
     .projects-grid.auto-expand .project-details {
-      position: relative!important; transform: none!important; margin-top: 1rem;
+      position: relative!important;
+      transform: none!important;
+      margin-top: 1rem;
     }
 
     .project-card {
-      display: inline-block; width: 100%; margin-bottom: 1.5rem;
-      break-inside: avoid-column; position: relative;
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: .75rem; backdrop-filter: blur(10px);
-      padding: 1rem; overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 1.5rem;
+      break-inside: avoid-column;
+      position: relative;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: .75rem;
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      overflow: hidden;
       transition: transform .4s ease, box-shadow .3s ease;
     }
     .project-card::before {
-      content: ""; position: absolute; top: 0; left: 0;
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
       width: 60px; height: 4px;
       background: linear-gradient(90deg, var(--pink), var(--pink-light));
       border-top-left-radius: .75rem;
@@ -137,75 +359,109 @@
     }
     .project-subtext {
       font-size: clamp(.8rem,2.5vw,.9rem);
-      color: var(--pink-light); font-style: italic; margin-bottom: .25rem;
+      color: var(--pink-light);
+      font-style: italic;
+      margin-bottom: .25rem;
+      text-align: center;
     }
     .project-title {
       font-size: clamp(1.3rem,6vw,1.8rem);
-      color: var(--pink-light); margin-bottom: .25rem;
+      color: var(--pink-light);
+      margin-bottom: .25rem;
+      text-align: center;
     }
     .project-tagline {
-      font-size: clamp(.9rem,3vw,1rem); color: var(--text); margin-bottom: .5rem;
+      font-size: clamp(.9rem,3vw,1rem);
+      color: var(--text);
+      margin-bottom: .5rem;
+      text-align: center;
     }
     .project-tags {
-      display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .5rem;
+      justify-content: center;
     }
     .project-tags .tag {
-      background: var(--tag-bg); border:1px solid var(--tag-border);
-      border-radius:.5rem; padding:.25rem .5rem;
-      font-size: clamp(.7rem,2vw,.8rem); color: var(--text);
+      background: var(--tag-bg);
+      border:1px solid var(--tag-border);
+      border-radius:.5rem;
+      padding:.25rem .5rem;
+      font-size: clamp(.7rem,2vw,.8rem);
+      color: var(--text);
     }
     #award {
-      background: #fff2b3; border:1px solid #ffc955;
-      border-radius:.5rem; padding:.25rem .5rem;
-      font-size: clamp(.7rem,2vw,.8rem); color: #000;
+      background: #fff2b3;
+      border:1px solid #ffc955;
+      border-radius:.5rem;
+      padding:.25rem .5rem;
+      font-size: clamp(.7rem,2vw,.8rem);
+      color: #000;
     }
     #link {
-      color:#ff5599; text-decoration: underline;
+      color: var(--pink-light);
+      text-decoration: underline;
     }
-    .project-links {
-      position: absolute; top: .75rem; right: .75rem;
-      display: flex; gap: .5rem;
-    }
-    .project-link-icon {
-      width: 24px; height: 24px;
-      filter: invert(100%); cursor: pointer;
-      transition: transform .2s ease;
-    }
-    .project-link-icon:hover { transform: scale(1.1); }
 
     .project-details img.project-image {
-      width: 100%; height: auto; border-radius: .5rem;
+      width: 100%;
+      height: auto;
+      border-radius: .5rem;
       margin-bottom: 1rem;
     }
     .project-details {
-      position: absolute; left: 0; bottom: 0; width: 100%;
-      background: rgba(36, 36, 36, 0.85); color: #fff; padding: 1rem;
-      transform: translateY(100%); transition: transform .3s ease;
-      font-size: clamp(.9rem,3vw,1rem); line-height: 1.4;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background: rgba(36, 36, 36, 0.85);
+      color: #fff;
+      padding: 1rem;
+      transform: translateY(100%);
+      transition: transform .3s ease;
+      font-size: clamp(.9rem,3vw,1rem);
+      line-height: 1.4;
     }
     .project-card.expanded .project-details {
       transform: translateY(0);
     }
     .project-details p { margin: 0; }
 
-    /* PUBLICATIONS CARD */
+    /* PUBLICATIONS */
     .publication-card {
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.2);
-      border-radius: .75rem; backdrop-filter: blur(10px);
-      padding: 1.5rem; margin-top: 1rem;
+      border-radius: .75rem;
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      margin-top: 1rem;
+      max-width: 1100px;
+      margin-inline: auto;
     }
     .publication-list {
-      list-style: none; margin: 0; padding: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
     .publication-list li {
       margin-bottom: 0.75rem;
       font-size: clamp(1rem, 2.5vw, 1.1rem);
     }
     .publication-list a {
-      color: var(--pink-light); text-decoration: underline;
+      color: var(--pink-light);
+      text-decoration: underline;
     }
-  </style>
+
+    footer {
+      padding: 2rem 5%;
+      text-align: center;
+      font-size: .85rem;
+      opacity: .6;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      background: var(--darker);
+    }
+</style>
 </head>
 <body>
 
@@ -215,15 +471,12 @@
       <p class="intro">Hi, my name is</p>
       <h1 class="name">Laksh Patel</h1>
       <p class="description">
-        I'm a senior at the Illinois Mathematics and Science Academy, passionate about control systems, linguistics, and mathematics.
+        I'm a senior at the Illinois Mathematics and Science Academy, working at the intersection of control theory, AI systems, and algorithm design.
       </p>
-      <p style="font-size:1rem; margin-bottom:2rem; color:#eee;">
-    Email: 
-    <a href="mailto:lpatel@imsa.edu"
-       style="color:#ff5599; text-decoration:none; font-weight:600;">
-      lpatel@imsa.edu
-    </a>
-  </p>
+      <p class="hero-email">
+        Email:
+        <a href="mailto:lpatel@imsa.edu">lpatel@imsa.edu</a>
+      </p>
       <div class="social-links">
         <a href="https://github.com/lakshRP" target="_blank" rel="noopener">
           <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" class="social-icon"/>
@@ -241,226 +494,440 @@
     </div>
     <img src="assets/avatar.svg" class="avatar" alt="Coding avatar"/>
     <img src="assets/top4.png" class="svg-top" alt="Accent SVG"/>
-    <svg class="down-arrow" viewBox="0 0 24 24">
+    <svg class="down-arrow" viewBox="0 0 24 24" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})">
       <path d="M12 16l-6-6h12z"/>
     </svg>
   </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section-block">
+    <div class="section-inner">
+      <h2 class="section-heading">Experience</h2>
+      <div class="info-grid">
+
+        <div class="info-card">
+          <div class="info-role">Quantitative Developer @ Rebellion Research</div>
+          <div class="info-meta">Summer 2025 · Deep RL, trading, stochastic modeling</div>
+          <div class="info-body">
+            Built deep reinforcement learning agents for algorithmic trading and macro-economic forecasting,
+            reaching an average out-of-sample Sharpe ratio of <b>2.2</b>.
+          </div>
+          <div class="info-tags">
+            <span class="info-tag">RL</span>
+            <span class="info-tag">Time Series</span>
+            <span class="info-tag">Python</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-role">Software Engineer @ Berkeley AI Research Labs</div>
+          <div class="info-meta">2023–2025 · Dharmic OCR & document pipelines</div>
+          <div class="info-body">
+            Built character-level CNN + sequence models for OCR on degraded Sanskrit and Tibetan scripts,
+            serving ~<b>36K</b> users and ~<b>450K</b> monthly text extractions.
+          </div>
+          <div class="info-tags">
+            <span class="info-tag">OCR</span>
+            <span class="info-tag">Computer Vision</span>
+            <span class="info-tag">PyTorch</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-role">Applied Mathematics Research @ ISiS</div>
+          <div class="info-meta">2023–2025 · Vanderbilt Institute for Software Integrated Systems</div>
+          <div class="info-body">
+            Developed adversarial-resilient formation-control algorithms with Lyapunov stability guarantees,
+            recovering formation shape across <b>5000+</b> randomized attack trials.
+          </div>
+          <div class="info-tags">
+            <span class="info-tag">Multi-Agent Systems</span>
+            <span class="info-tag">Control Theory</span>
+            <span class="info-tag">Graph Theory</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-role">Control Theory Research @ Southern Illinois University</div>
+          <div class="info-meta">2023–2025 · Traffic-flows & multi-lane intersections</div>
+          <div class="info-body">
+            Designed traffic-flow controllers for multi-lane intersections using constrained multi-agent dynamics,
+            reducing average delay by <b>27%</b> and increasing throughput by <b>14%</b> over <b>5000+</b> simulation runs.
+          </div>
+          <div class="info-tags">
+            <span class="info-tag">Traffic Control</span>
+            <span class="info-tag">Optimization</span>
+            <span class="info-tag">Simulation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="section-block">
+    <div class="section-inner">
+      <h2 class="section-heading">Education</h2>
+      <div class="info-card edu-card">
+        <div class="info-role">Illinois Mathematics and Science Academy (IMSA)</div>
+        <div class="info-meta">Aurora, IL · 2023–2026</div>
+        <p><strong>Coursework:</strong> Multivariable Calculus, Linear Algebra, Organic Chemistry, Machine Learning, Microcontrollers, Advanced Programming, Computational Science, Theoretical Neuroscience, Object-Oriented Programming.</p>
+        <p><strong>Leadership:</strong> <a href="https://github.com/in2cysec" target="_blank" rel="noopener">President of Cybersecurity Club</a>, leading a program serving 120+ students and raising <b>$85K</b> in sponsorships.</p>
+        <p><strong>Titles:</strong> Velexi Research Scholar, QuestBridge Scholar, National Merit Scholar.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- PROJECTS -->
   <section id="projects" class="projects">
     <div class="projects-header">
       <h2 class="section-title">Projects</h2>
-      <label class="format-switch">
-        <div class="switch">
-          <input type="checkbox" id="expandToggle"/>
-          <span class="slider"></span>
-        </div>
-        <span class="switch-label">Expand All</span>
-      </label>
+      
     </div>
-    <div class="projects-grid condensed">
+   <div class="projects-grid condensed">
 
-      <!-- SOSH -->
-      <div class="project-card">
-                <div class="card-main">
-          <div class="project-subtext">Research</div>
-          <h3 class="project-title">SOSH for Multi-Agent Systems</h3>
-          <p class="project-tagline">
-            Fault-tolerant algorithm for formation control (Mentor: <a id="link" href="https://akhileshraj91.github.io/" target="_blank" rel="noopener">Akhilesh Raj</a>, Vanderbilt University)
-          </p>
-          <div class="project-tags">
-            <span class="tag">Control Theory</span>
-            <span class="tag">Graph Theory</span>
-            <span class="tag">Lyapunov Stability</span>
-            <span class="tag">Dynamical Systems</span>
-          </div>
-        </div>
-        <div class="project-details">
-          <img class="project-image" src="assets/MAS.png" alt="SOSH screenshot"/>
-          <p>
-            Second-Order State Hallucinations (SOSH) is a novel methodology for mitigating attacks in formation control of multi-agent systems. Traditional multi-agent systems, when an error occurs, experience cascading faults throughout the network. SOSH uses residual analysis to detect faulty agents within a threshold and “hallucinate” replacement states for the compromised nodes. It then updates the network topology to exclude those nodes. SOSH estimates each attacked node’s position using both velocity and acceleration (second-order approximation), enabling practical deployment in search-and-rescue, platooning, traffic control, and military applications.
-          </p>
-          <div class="project-tags">
-            <span id="award">Fully funded trip to present at the 2025 National Consortium of Secondary STEM School Student Research Conference</span>
-            <span id="award">24th Annual High School Research Symposium: Presented SOSH and received the People’s Choice Award</span>
-            <span id="award">Passed with Distinction in IMSA’s Student Inquiry Research Program (8 of 200 selected)</span>
-            <span id="award">3rd International Mathematics and Statistics Student Research Symposium: Invited to deliver a talk on SOSH methodology</span>
-          </div>
-        </div>
+  <!-- GRAPH CARTOGRAPHY -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – ICML 2025</div>
+      <h3 class="project-title">Graph Cartography for LLM Safety</h3>
+      <p class="project-tagline">
+        Forget-event scoring to identify memorized and high-risk pretraining samples.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Pruning</span>
+        <span class="tag">LLM Retention</span>
+        <span class="tag">Visualization</span>
       </div>
+    </div>
 
-      <!-- MITRA -->
-      <div class="project-card">
-        
-        <div class="card-main">
-          <div class="project-subtext">Research</div>
-          <h3 class="project-title">MITRA (Berkeley AI Research)</h3>
-          <p class="project-tagline">
-            Engineered end-to-end OCR pipelines to process and normalize rare Sanskrit and Tibetan manuscripts (Mentor: <a id="link" href="https://scholar.google.com/citations?user=ID9QePIAAAAJ&hl=en" target="_blank" rel="noopener">Dr. Kurt Kuetzer</a>, UC Berkeley)
-          </p>
-          <div class="project-tags">
-            <span class="tag">OCR</span>
-            <span class="tag">RegEx</span>
-            <span class="tag">Linguistic Data</span>
-            <span class="tag">ROS</span>
-          </div>
-        </div>
-        <div class="project-details">
-          <img class="project-image" src="assets/MITRA.png" alt="MITRA screenshot"/>
-          <p>
-            MITRA is a research project in the Berkeley AI Research lab in EECS at UC Berkeley. Leveraging a robust corpus of over four million sentence pairs from various sources and using Google's MADLAD-400 model as a foundation, MITRA has fine-tuned a specialized translation model that enhances fluency and significantly expands access to ancient wisdom texts.
-          </p>
-        </div>
+    <div class="project-details">
+      <img class="project-image" src="assets/Pruning.png" alt="Graph Cartography screenshot"/>
+      <p>
+        A data-centric framework assigning each sample a difficulty score and forget-event
+        frequency. These metrics partition massive corpora for targeted pruning and privacy-aware
+        dataset design. Reduced retention of memorized data while preserving distribution coverage.
+      </p>
+      <div class="project-tags">
+        <span id="award">Best Poster — ICML 2025 Data in Generative Models</span>
       </div>
+    </div>
+  </div>
 
-      <!-- DATA CARTOGRAPHY -->
-      <div class="project-card">
-        
-        <div class="card-main">
-          <div class="project-subtext">Research – ICML 2025</div>
-          <h3 class="project-title">Data Cartography for Impartial LLM Evaluation</h3>
-          <p class="project-tagline">
-            Forget-event scores to prune memorized examples and curb model leakage
-          </p>
-          <div class="project-tags">
-            <span class="tag">Pruning</span>
-            <span class="tag">LLM Retention</span>
-            <span class="tag">Visualization</span>
-          </div>
-        </div>
-        <div class="project-details">
-          <img class="project-image" src="assets/Pruning.png" alt="Data Cartography screenshot"/>
-          <p>
-            This is a data-centric framework that assigns each pretraining sample a difficulty score (early-epoch loss) and a memorization score (frequency of “forget events”), then partitions examples into four quadrants to guide targeted pruning and up-/down-weighting.
-          </p>
-          <div class="project-tags">
-            <span id="award">Accepted to the 42nd International Conference on Machine Learning; Youngest invitee in ICML history</span>
-          </div>
-        </div>
+  <!-- DHARMAMITRA -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – Berkeley AI Research</div>
+      <h3 class="project-title">Dharmamitra — OCR for Sanskrit & Tibetan</h3>
+      <p class="project-tagline">
+        Character-level CNNs and MADLAD-400 finetuning for degraded manuscripts.
+      </p>
+      <div class="project-tags">
+        <span class="tag">OCR</span>
+        <span class="tag">RegEx</span>
+        <span class="tag">Linguistic Data</span>
+        <span class="tag">CNNs</span>
       </div>
+    </div>
 
-      <!-- SLANGLLM -->
-      <div class="project-card">
-        
-        <div class="card-main">
-          <div class="project-subtext">Research – IEEE SATC 2025 (IEEE Xplore)</div>
-          <h3 class="project-title">SlangLLM</h3>
-          <p class="project-tagline">
-            Dynamic, contextual slang filtering for NLP applications (Mentor: <a id="link" href="https://academics.siu.edu/computing-and-technology/information-technology/faculty/alsobeh-anas.php" target="_blank" rel="noopener">Dr. Anas Alsobeh</a>, SIU Carbondale)
-          </p>
-          <div class="project-tags">
-            <span class="tag">NLP</span>
-            <span class="tag">Semantic Analysis</span>
-            <span class="tag">Toxicity Filtering</span>
-          </div>
-        </div>
-        <div class="project-details">
-          <img class="project-image" src="assets/SlangLLM3.png" alt="SlangLLM screenshot"/>
-          <p>
-            SlangLLM is a research project that focuses on detecting and filtering slang dynamically in user-provided text prompts. The system combines natural language processing (NLP), semantic similarity analysis, and toxicity classification to enhance safe communication and mitigate harm in interactions with large language models.
-          </p>
-          <div class="project-tags">
-            <span id="award">Presented orally at IEEE SATC 2025</span>
-            <span id="award">Accepted for publication in IEEE Xplore</span>
-          </div>
-        </div>
+    <div class="project-details">
+      <img class="project-image" src="assets/MITRA.png" alt="Dharmamitra screenshot"/>
+      <p>
+        Built OCR pipelines for 500+ rare Sanskrit and Tibetan manuscripts. Integrated
+        character-level CNNs with modern multilingual transformers, reducing manual review from
+        ~2 hours to ~3 minutes per script. System serves 36K+ users and over 450K monthly
+        extractions.
+      </p>
+    </div>
+  </div>
+
+  <!-- UN-DISTILLABLE LLMs -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – NeurIPS 2025</div>
+      <h3 class="project-title">Un-Distillable LLMs via Entropy-Perturbed Logits</h3>
+      <p class="project-tagline">
+        Output-level entropy perturbations preventing student-model replication.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Distribution Shift</span>
+        <span class="tag">Privacy</span>
+        <span class="tag">Perturbation</span>
       </div>
+    </div>
 
-      <!-- SUPPLY-CHAIN -->
-      <div class="project-card">
-        
-        <div class="card-main">
-          <div class="project-subtext">Research – ICAEB 2025</div>
-          <h3 class="project-title">Primal-Dual Optimization for Supply-Chains</h3>
-          <p class="project-tagline">
-            Delay-tolerant supply-chain flow with O(1/√K) convergence
-          </p>
-          <div class="project-tags">
-            <span class="tag">Acyclic Graphs</span>
-            <span class="tag">Stochastic Process Modeling</span>
-            <span class="tag">NumPy</span>
-          </div>
-        </div>
-        <div class="project-details">
-          <img class="project-image" src="assets/architecture.png" alt="Supply-Chain Architecture"/>
-          <p>
-            Designed as a scalable, resilient solution for decentralized flow allocation in modern supply-chain networks, it enables autonomous warehouses, carriers, and retailers to coordinate optimally despite high latency, packet loss, and dynamically changing network conditions.
-          </p>
-          <div class="project-tags">
-            <span id="award">Accepted to ICAEB 2025 in Paris, France</span>
-          </div>
-        </div>
+    <div class="project-details">
+      <img class="project-image" src="assets/entropy.png" alt="Un-Distillable LLMs screenshot"/>
+      <p>
+        Introduced a closed-form entropy injection mechanism that shifts teacher outputs into
+        a region student models cannot imitate. Establishes theoretical limits on distillability 
+        under bounded perturbations.
+      </p>
+      <div class="project-tags">
+        <span id="award">Accepted to NeurIPS LockLLM</span>
       </div>
+    </div>
+  </div>
 
-      <!-- NEUROAI -->
-      <div class="project-card">
-       
-        <div class="card-main">
-          <div class="project-subtext">Independent Study</div>
-          <h3 class="project-title">Hodgkin-Huxley Neurons for Synaptic Computing</h3>
-          <p class="project-tagline">
-            Novel architectures for translating classical circuitry to neuronal circuitry (Mentor: <a id="link" href="https://www.imsa.edu/academics/faculty/ashwin-mohan-ph-d/p" target="_blank" rel="noopener">Dr. Ashwin Mohan</a>, IMSA)
-          </p>
-          <div class="project-tags">
-            <span class="tag">Computational Neuroscience</span>
-            <span class="tag">Cable Theory</span>
-            <span class="tag">Hebbian Plasticity</span>
-          </div>
-        </div>
-        <div class="project-details">
-          <img class="project-image" src="assets/neuroai.png" alt="NeuroAI screenshot"/>
-          <p>
-            This project uses neuronal modeling tools such as <a id="link" href="https://med.uth.edu/nba/snnap/" target="_blank" rel="noopener">SNNAP</a> and <a id="link" href="https://www.neuron.yale.edu/neuron/" target="_blank" rel="noopener">Yale's NEURON software</a> to build biologically accurate networks that mimic classical computing gates. It introduces the Yield Neuron Circuit and the Clone Neuron Circuit, enabling buffers and signal duplication in artificial neural networks.
-          </p>
-          <div class="project-tags">
-            <span id="award">Presented at IMSAloquium 2025</span>
-          </div>
-        </div>
+  <!-- MULTI-STEP INFERENCE -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – NeurIPS 2025</div>
+      <h3 class="project-title">Evaluating Multi-Step Inference in LLMs</h3>
+      <p class="project-tagline">
+        Benchmark for predicting thresholded network dynamics.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Stochastic Processes</span>
+        <span class="tag">Acyclic Graphs</span>
+        <span class="tag">Simulation</span>
       </div>
+    </div>
 
+    <div class="project-details">
+      <img class="project-image" src="assets/multistep.png" alt="Multi-Step Inference Benchmark"/>
+      <p>
+        Tests LLMs on multi-step propagation in discrete dynamical systems. Reveals scaling-dependent
+        failures: larger models perform better at long-horizon reasoning, but collapse when thresholds
+        amplify early-stage uncertainty.
+      </p>
+      <div class="project-tags">
+        <span id="award">NeurIPS 2025 — Lifecycle Evaluation Workshop</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOSH (unchanged but cleaned) -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – Institute for Software Integrated Systems</div>
+      <h3 class="project-title">SOSH — Fault-Tolerant Multi-Agent Control</h3>
+      <p class="project-tagline">
+        Second-Order State Hallucinations for compromised-agent recovery.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Control Theory</span>
+        <span class="tag">Graph Theory</span>
+        <span class="tag">Lyapunov Stability</span>
+      </div>
+    </div>
+
+    <div class="project-details">
+      <img class="project-image" src="assets/MAS.png" alt="SOSH screenshot"/>
+      <p>
+        SOSH detects faulty teams via residual spikes and hallucinates replacement states, updating system
+        topology to exclude compromised nodes. Verified stability across 5,000+ randomized multi-agent
+        trials.
+      </p>
+      <div class="project-tags">
+        <span id="award">NCSSS Research Grant</span>
+        <span id="award">People’s Choice — 24th Annual High School Research Symposium</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLANGLLM -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – IEEE SATC 2025</div>
+      <h3 class="project-title">SlangLLM</h3>
+      <p class="project-tagline">
+        Context-aware slang detection for safer NLP.
+      </p>
+      <div class="project-tags">
+        <span class="tag">NLP</span>
+        <span class="tag">Semantic Analysis</span>
+        <span class="tag">Toxicity Filtering</span>
+      </div>
+    </div>
+
+    <div class="project-details">
+      <img class="project-image" src="assets/SlangLLM3.png" alt="SlangLLM screenshot"/>
+      <p>
+        Tracks evolving slang expressions using embeddings + semantic similarity, paired with toxicity
+        classifiers. Improves moderation accuracy for dynamic, non-dictionary language.
+      </p>
+      <div class="project-tags">
+        <span id="award">Oral Presentation – IEEE SATC 2025</span>
+        <span id="award">Published in IEEE Xplore</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPPLY-CHAIN -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – ICAEB 2025</div>
+      <h3 class="project-title">Primal-Dual Optimization for Supply-Chain Networks</h3>
+      <p class="project-tagline">
+        O(1/√K) convergence under latency and packet loss.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Optimization</span>
+        <span class="tag">Acyclic Graphs</span>
+        <span class="tag">Stochastic Systems</span>
+      </div>
+    </div>
+
+    <div class="project-details">
+      <img class="project-image" src="assets/architecture.png" alt="Supply Chain screenshot"/>
+      <p>
+        A delay-tolerant primal-dual flow algorithm for distributed supply networks. Guarantees convergence
+        under asynchronous updates, dropout, and shifting connectivity.
+      </p>
+      <div class="project-tags">
+        <span id="award">Presented at ICAEB 2025 — Paris, France</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DICTIONARY LEARNING -->
+  <div class="project-card">
+    <div class="card-main">
+      <div class="project-subtext">Research – Velexi</div>
+      <h3 class="project-title">Dictionary Learning for Organic Molecule IR Spectra</h3>
+      <p class="project-tagline">
+        Sparse encodings revealing vector-space structure in IR spectra.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Applied Mathematics</span>
+        <span class="tag">Spectroscopy</span>
+        <span class="tag">Sparse Coding</span>
+      </div>
+    </div>
+
+    <div class="project-details">
+      <img class="project-image" src="assets/spectra.png" alt="Spectra screenshot"/>
+      <p>
+        Demonstrates that IR spectra obey approximate linear structure enabling dictionary-based 
+        decomposition. Connects classical organic heuristics with modern sparse-encoding theory.
+      </p>
+      <div class="project-tags">
+        <span id="award">Velexi Research Scholar</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards" class="section-block">
+    <div class="section-inner">
+      <h2 class="section-heading">Awards</h2>
+      <div class="awards-grid">
+
+        <div class="award-card">
+          <div class="award-title">
+            <a href="https://icml2025digbugs.github.io/" target="_blank" rel="noopener">
+              Best Poster — Data in Generative Models
+            </a>
+          </div>
+          <div class="award-org">42nd International Conference on Machine Learning (ICML 2025)</div>
+          <div class="award-desc">
+            Ranked <b>#1</b> among all Data in Generative Models poster presentations.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">AIME Qualifier</div>
+          <div class="award-org">Mathematical Association of America</div>
+          <div class="award-desc">
+            Placed in the top <b>0.25%</b> nationwide in the AMC/AIME competition pathway.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">USACO Gold Division</div>
+          <div class="award-org">USA Computing Olympiad</div>
+          <div class="award-desc">
+            Advanced to Gold, placing in roughly the top <b>5%</b> of ~40,000 annual contestants.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">National Merit Scholar Semifinalist</div>
+          <div class="award-org">National Merit Scholarship Corporation</div>
+          <div class="award-desc">
+            PSAT index <b>226/228</b>, qualifying among top scorers nationwide.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">QuestBridge Scholar</div>
+          <div class="award-org">QuestBridge National College Match</div>
+          <div class="award-desc">
+            Selected as a low-income, high-achieving student in a highly competitive national pool.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">NCSSS Research Grant</div>
+          <div class="award-org">National Consortium of Secondary STEM Schools</div>
+          <div class="award-desc">
+            Funded travel and presentation for work on fault-tolerant multi-agent systems.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">Velexi Research Scholar</div>
+          <div class="award-org">Velexi Research</div>
+          <div class="award-desc">
+            Selected for a mentored research program in applied mathematics and machine learning.
+          </div>
+        </div>
+
+        <div class="award-card">
+          <div class="award-title">People’s Choice Award</div>
+          <div class="award-org">24th Annual IMSA High School Research Symposium</div>
+          <div class="award-desc">
+            Voted top project for SOSH multi-agent control among peer and faculty attendees.
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- PUBLICATIONS (commented out) -->
-  <!--
-  <section id="publications" class="projects">
-    <h2 class="section-title">Publications</h2>
-    <div class="publication-card">
-      <ul class="publication-list">
-        <li>
-          <a href="https://arxiv.org/abs/1234.5678" target="_blank" rel="noopener">
-            L. Patel &amp; N. Shanbhag, “Adversarial Attack Mitigation in Formation Control of Multi-Agent Systems,” arXiv:1234.5678, 2025.
-          </a>
-        </li>
-        <li>
-          <a href="https://ieeexplore.ieee.org/document/9876543" target="_blank" rel="noopener">
-            L. Patel, “Cost Optimization for Auction-Based Intersection Management in Smart Cities,” IEEE Trans. Intell. Transp. Syst., vol. 26, no. 2, pp. 234–245, Feb. 2025.
-          </a>
-        </li>
-        <li>
-          <a href="https://doi.org/10.1000/j.journal.2025.01.001" target="_blank" rel="noopener">
-            L. Patel &amp; N. Shanbhag, “SlangLLM: A Framework for Contextual Toxicity Filtering,” in Proc. ICML Data Generation Workshop, 2025.
-          </a>
-        </li>
-      </ul>
-    </div>
-  </section>
-  -->
+  <footer>
+    © 2025 — Laksh Patel
+  </footer>
 
   <script>
-    // expandAll toggle
+    // Expand All toggle
     document.getElementById('expandToggle').addEventListener('change', e => {
       document.querySelector('.projects-grid')
         .classList.toggle('auto-expand', e.target.checked);
+      // Add/remove 'expanded' class on each project-card for full details
+      document.querySelectorAll('.project-card').forEach(card => {
+        if (e.target.checked) {
+          card.classList.add('expanded');
+        } else {
+          card.classList.remove('expanded');
+        }
+      });
     });
 
-    // avatar scroll effect
+    // Avatar scroll effect
     document.addEventListener('scroll', () => {
       const avatar = document.querySelector('.avatar');
-      const heroHeight = document.querySelector('.hero').offsetHeight;
+      const hero = document.querySelector('.hero');
+      if (!avatar || !hero) return;
+      const heroHeight = hero.offsetHeight;
       const prog = Math.min(window.scrollY / heroHeight, 1);
       avatar.style.opacity = 1 - prog;
       avatar.style.transform = `scale(${1 - prog * 0.5}) translateX(${prog * 80}vw)`;
+    });
+
+    // Click-to-expand individual cards on hover-like behavior for touch devices
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (!document.querySelector('.projects-grid').classList.contains('auto-expand')) {
+          card.classList.toggle('expanded');
+        }
+      });
     });
   </script>
 </body>
