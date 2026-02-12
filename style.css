@@ -99,11 +99,14 @@ body {
 
 /* Header */
 header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #e5e7eb;
+    
+    
+    padding-bottom: 0.5rem;
+    /*border-bottom: 1px solid #e5e7eb;*/
 }
-
+header h1{
+    margin-bottom: 0.75rem;
+}
 .intro {
     margin-bottom: 1.5rem;
 }

@@ -3,7 +3,7 @@ const navLinks = document.querySelectorAll('.nav-links li');
 const pathDisplay = document.querySelector('.path');
 
 const SECTION_TO_FILE = {
-    about: 'about.html',
+    about: 'index.html',
     projects: 'projects.html',
     research: 'research.html',
     photos: 'photos.html',
