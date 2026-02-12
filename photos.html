@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laksh Patel</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-section="photos">
+    <!-- Bubble Background -->
+    <div class="bubble-container" id="bubbleContainer"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="intro">
+                <div class="path">~/laksh</div>
+                <h1>Laksh Patel</h1>
+                <p class="subtitle"></p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <ul class="nav-links">
+                <li data-section="about">About</li>
+                <li data-section="projects">Projects</li>
+                <li data-section="research">Research</li>
+                <li data-section="photos" class="active">Photos</li>
+                <li data-section="classes">Coursework</li>
+                <li data-section="contact">Contact</li>
+            </ul>
+        </nav>
+
+        <!-- Photos Section -->
+        <section id="photos" class="section active">
+            <h2>Favorite Photos</h2>
+            <p></p>
+
+            <!-- Auto-filled from your Google Drive folder via Apps Script -->
+            <div class="photo-grid" id="photoGrid"></div>
+        </section>
+
+        <footer></footer>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+    <script>
+      function renderPhotos(items) {
+        var grid = document.getElementById("photoGrid");
+        if (!grid) return;
+
+        grid.innerHTML = "";
+
+        function driveThumb(id, w) { return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + (w || 1400); }
+        function driveView(id) { return "https://drive.google.com/uc?export=view&id=" + id; }
+
+        function captionAsIpynb(name) {
+          if (!name) return "";
+          var lastDot = name.lastIndexOf(".");
+          var base = (lastDot > 0) ? name.slice(0, lastDot) : name; // remove last extension
+          return base + ".ipynb";
+        }
+
+        items.forEach(function (it) {
+          var id = it.id;
+
+          var item = document.createElement("div");
+          item.className = "photo-item";
+
+          // NOTE: no <a> tag -> nothing to click/open
+          var img = document.createElement("img");
+          img.src = driveThumb(id, 1400);
+          img.alt = "";
+          img.draggable = false;
+          img.onerror = function () { img.src = driveView(id); };
+
+          var cap = document.createElement("div");
+          cap.className = "photo-caption";
+          cap.textContent = captionAsIpynb(it.name);
+
+          item.appendChild(img);
+          item.appendChild(cap);
+          grid.appendChild(item);
+        });
+
+        // extra safety: prevent click/contextmenu/drag inside the grid
+        grid.addEventListener("click", function (e) { e.preventDefault(); });
+        grid.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+        grid.addEventListener("dragstart", function (e) { e.preventDefault(); });
+      }
+    </script>
+
+    <script src="https://script.google.com/macros/s/AKfycbyJZ7e1sN2Nmn_y3sCax6OjVQncDao_B1PR7K13DkGbhNgU-VzTNVXcmReiaBMjzKma7Q/exec?callback=renderPhotos"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Laksh Patel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0f0f10;
+    --fg: #e9e9eb;
+    --muted: #9a9aa0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Inter, system-ui, sans-serif;
+    line-height: 1.65;
+  }
+
+  section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 8vw;
+  }
+
+  .block {
+    max-width: 720px;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 16px 0;
+  }
+
+  p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .rewrite {
+    color: var(--fg);
+    transition: opacity 0.4s ease;
+  }
+
+  footer {
+    padding: 64px 8vw;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+
+<body>
+
+<section>
+  <div class="block">
+    <h1>
+      I build systems.
+    </h1>
+    <p class="rewrite" id="line1">
+      Mostly in math and computer science.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="block">
+    <h1>
+      That’s not quite true.
+    </h1>
+    <p class="rewrite" id="line2">
+      I study how systems behave when assumptions fail.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="block">
+    <h1>
+      Most work looks clean.
+    </h1>
+    <p class="rewrite" id="line3">
+      Real systems are not.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="block">
+    <h1>
+      My interests sit between
+    </h1>
+    <p class="rewrite" id="line4">
+      optimization, control, and deployment.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="block">
+    <h1>
+      I care about
+    </h1>
+    <p class="rewrite" id="line5">
+      things that survive contact with reality.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div>
+    © 2025 · email · github · twitter
+  </div>
+</footer>
+
+<script>
+  const lines = [
+    "Mostly in math and computer science.",
+    "Mostly in systems that scale.",
+    "Mostly in places where theory meets friction."
+  ];
+
+  const target = document.getElementById("line1");
+  let i = 0;
+
+  window.addEventListener("scroll", () => {
+    const t = Math.floor(window.scrollY / 300);
+    if (t !== i && t < lines.length) {
+      i = t;
+      target.style.opacity = 0;
+      setTimeout(() => {
+        target.textContent = lines[i];
+        target.style.opacity = 1;
+      }, 200);
+    }
+  });
+</script>
+
+</body>
+</html>

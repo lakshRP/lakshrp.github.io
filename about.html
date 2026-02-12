@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laksh Patel</title>
+    <link rel="icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-section="about">
+    <!-- Bubble Background -->
+    <div class="bubble-container" id="bubbleContainer"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="intro">
+                <div class="path">~/laksh</div>
+                <h1>Laksh Patel</h1>
+                <p class="subtitle"></p>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav>
+            <ul class="nav-links">
+                <li data-section="about" class="active">About</li>
+                <li data-section="projects">Projects</li>
+                <li data-section="research">Research</li>
+                <li data-section="photos">Photos</li>
+                <li data-section="classes">Coursework</li>
+                <li data-section="contact">Contact</li>
+            </ul>
+        </nav>
+
+        <!-- About Section -->
+        <section id="about" class="section active"
+  style="display:flex; gap:1.5rem; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;">
+
+  <!-- Text side -->
+  <div style="flex:1 1 360px; min-width:260px;">
+  <p>
+    Hello! I'm Laksh, a frosh at <a href="https://www.caltech.edu" target="_blank">Caltech</a>. I'm pursuing a B.S in Computer Science and am active in the <a href="https://caltechaia.org/" target="_blank">AI Alignment Group</a>.
+  </p>
+  <p>
+    Most of the time, you can find me listening to music of all sorts. My current favorite artists are
+    <a href="https://www.zedd.net/" target="_blank" rel="noopener noreferrer">Zedd</a>,
+    <a href="https://www.zaralarssonofficial.com/" target="_blank" rel="noopener noreferrer">Zara Larsson</a>,
+    and <a href="https://en.wikipedia.org/wiki/Vishal%E2%80%93Shekhar" target="_blank" rel="noopener noreferrer">Vishal-Shekhar</a>.
+  </p>
+  <p>
+    I'm also a large foodie--especially when it comes to all-you-can-eat sushi and south asian dishes.
+  </p>
+
+  <!-- Bubble spawn rate slider -->
+  <div class="bubble-control">
+    <label for="bubbleRate">more bubbles:</label>
+    <div class="bubble-row">
+      <input id="bubbleRate" type="range" min="0" max="100" value="35" />
+      <div class="bubble-value" id="bubbleRateValue">35%</div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Image side -->
+  <div style="flex:0 0 280px; max-width:320px; width:100%;">
+    <img
+      id="laksh-image"
+      src="assets/laksh.png"
+      alt="Laksh"
+      style="display:block; width:100%; height:auto; border-radius:14px; border:1px solid #e5e7eb;"
+    >
+  </div>
+
+</section>
+
+
+        <footer>
+
+        </footer>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
