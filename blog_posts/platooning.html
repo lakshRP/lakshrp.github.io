@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platooning in Theory</title>
+  <link rel="icon" href="../favicon.ico" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\$', '\\$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <style>
+    .center{
+        text-align: center;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .back-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      text-decoration:none;
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.10);
+      opacity:.95;
+      transition:transform 140ms ease, opacity 140ms ease;
+      flex:0 0 auto;
+    }
+    .back-btn:hover{
+      transform:translateY(-1px);
+      opacity:1;
+    }
+    .back-btn:active{
+      transform:translateY(0px) scale(0.98);
+    }
+    .back-btn:focus-visible{
+      outline:3px solid rgba(0,0,0,0.18);
+      outline-offset:3px;
+    }
+    .back-btn svg{
+      width:20px;
+      height:20px;
+    }
+    .post-card{
+      background:#fff;
+      border-radius:18px;
+      padding:26px;
+      margin-top:18px;
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .post-title{ margin:0; }
+    .post-meta{
+      margin:8px 0 18px 0;
+      opacity:.7;
+      font-size:14px;
+    }
+    .post-content{ line-height:1.65; }
+    .post-content p{ margin:0 0 14px 0; }
+    .post-content h3{ margin:22px 0 10px 0; }
+    .post-content ul{ margin:0 0 14px 18px; }
+    .post-footer{
+      margin-top:22px;
+      opacity:.7;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bubble-container" id="bubbleContainer"></div>
+
+  <div class="container">
+    <header>
+      <div class="intro">
+        <div class="path">~/laksh/blog</div>
+        <h1>Laksh Patel</h1>
+      </div>
+    </header>
+
+    <div class="post-card">
+      <div class="topbar">
+        <a class="back-btn" href="../blog.html" aria-label="Back to blog" title="Back to blog">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <h2 class="post-title">Platooning in Theory</h2>
+      <div class="post-meta">February 18, 2026</div>
+
+      <div class="post-content">
+        <p>
+            Platooning in delivery is where multiple long-haul vehicles form a convoy as to avoid air resistance, promote vehicle longevity, and compartamentalize storage. Control theory research often uses platooning as a benefit of contributing more to robust multi-agent systems. However, with the marginal benefit and large organizational overhead, it does not seem very physically plausible.
+        </p>
+
+        <div class="center">
+            <p>We can model a multi-agent system with the following control law:</p>
+            $$ x_i[k+1]  = x_i[k] +  (\sum_{j \sim i}{e_{ij}[k]}) + u[k]$$
+            <p> Where \( x_i[k] \) is the state of agent \(x_i\) @ time \(k\).</p>
+            <p> Where \( e_{ij}[k] \) is the error between neighbors \( i \sim j \) @ time \(k\).</p>
+            <p> Where \( u[k] \) is a linear control operator @ time \(k\) (if the convoy travels at 10 m/s @ time \(k=[0,10]\), \(u[k] = 10)\).</p>
+
+            <p>In convoy-style platooning, our error can be defined as the following:</p>
+            $$e_{i,i-1}[k] = (x_{i-1}[k] - x_i[k]) - d$$
+            or
+            $$
+                e_{ij}[k] \;=\;
+                \begin{cases}
+                \big(x_{i-1}[k] - x_i[k]\big) - d, & \text{if } j = i-1,\\[4pt]
+                0, & \text{if} j \not = i -1 \text{.}
+                \end{cases}
+            $$
+            <p>Where \(d\) is the expected distance between vehicles' CoMs
+            </p>
+            <p>As for simplification, I'll primarily focus on air resistance--although there are other factors. </p>
+            $$F_{net (u_i[k])} = m_{u_i[k]}a_{u_i[k]}$$
+            <p>This will be modeled top down where the agents can be considered long cylinders. </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/14ilf1l.svg" alt="drag coefficent chart">
+            <p>So,</p>
+            $$C=0.82$$
+             <p>Using the standard quadratic drag model,</p>
+
+            $$
+            F_{\text{air}(u_i[k])}
+            =
+            \frac{1}{2}
+            C
+            \rho
+            A
+            \big(u_i[k]\big)^2
+            $$
+
+            <p>
+            Where:
+            </p>
+           
+            <p>\( C = 0.82 \) (drag coefficient for a long cylinder)</p>
+            <p>\( \rho \approx 1.225 \, \text{kg/m}^3 \) (air density at sea level)</p>
+            <p>\( A \) is the frontal cross-sectional area</p>
+            <p>\( u_i[k] \) is the velocity of vehicle \( i \) at time \( k \)</p>
+            
+
+            <p>
+            Therefore, for the lead vehicle \( \mathbf{1} \),
+            </p>
+
+            $$
+            F_{\text{air}(u_{\mathbf{1}}[k])}
+            =
+            \frac{1}{2}
+            (0.82)
+            (1.225)
+            A
+            \big(u_{\mathbf{1}}[k]\big)^2
+            $$
+
+            <p>
+            However, in platooning, trailing vehicles experience reduced effective drag.
+            This can be modeled by introducing a reduction factor \( \alpha_i \in (0,1] \),
+            where
+            </p>
+
+            $$
+            F_{\text{air}(u_i[k])}
+            =
+            \frac{1}{2}
+            C
+            \rho
+            A
+            \alpha_i
+            \big(u_i[k]\big)^2
+            $$
+
+            <p>
+            with
+            </p>
+
+            $$
+            \alpha_1 = 1,
+            \quad
+            \alpha_i < 1 \text{ for } i > 1.
+            $$
+
+            <p>
+            The reduction factor \( \alpha_i \) is implicitly dependent on spacing \( d \).
+            Smaller \( d \) induces stronger aerodynamic shielding,
+            reducing drag and therefore lowering required control input magnitude.
+            </p>
+
+            <p>
+            The net longitudinal dynamics of each vehicle then become:
+            </p>
+
+            $$
+            m_i a_i[k]
+            =
+            u_i[k]
+            -
+            \frac{1}{2}
+            C
+            \rho
+            A
+            \alpha_i
+            \big(u_i[k]\big)^2
+            $$
+
+            <p>
+                Although, the system is heavily simplified, this is how we could model such a system.
+            </p>
+             <p>
+            Drag grows quadratically with speed.
+            </p>
+
+            $$
+            F_{\text{drag}} =
+            \frac{1}{2} C \rho A v^2
+            $$
+
+            <p>
+            Stopping distance also grows quadratically:
+            </p>
+
+            $$
+            d_{\text{stop}} = \frac{v^2}{2a}
+            $$
+
+            <p>
+            So both benefit and risk scale with \( v^2 \).
+            </p>
+
+            <p>
+            Assume:
+            </p>
+
+            <ul>
+                
+                <li>\( A = 10 \, m^2 \)</li>
+                <li>Max braking deceleration \( a = 5 \, m/s^2 \)</li>
+                <li>Approximate platoon reduction: 10% (I'll explain <a href="#10percent">here</a>)</li>
+            </ul>
+
+            <p>
+            Compare speeds:
+            </p>
+
+            <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:center;">
+                <thead>
+                    <tr>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Speed (m/s)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Drag (N)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">10% Savings (N)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Stopping Distance (m)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:8px;">15</td>
+                        <td style="padding:8px;">1130</td>
+                        <td style="padding:8px;">113</td>
+                        <td style="padding:8px;">22.5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">25</td>
+                        <td style="padding:8px;">3139</td>
+                        <td style="padding:8px;">314</td>
+                        <td style="padding:8px;">62.5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">35</td>
+                        <td style="padding:8px;">6155</td>
+                        <td style="padding:8px;">616</td>
+                        <td style="padding:8px;">122.5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">45</td>
+                        <td style="padding:8px;">10178</td>
+                        <td style="padding:8px;">1018</td>
+                        <td style="padding:8px;">202.5</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+            At low speed, platooning barely matters.
+            </p>
+
+            <p>
+            At highway speed (~25 m/s), savings become meaningful.
+            </p>
+
+            <p>
+            At high speed (35+ m/s), savings grow —
+            but stopping distance doubles.
+            </p>
+
+            <p>
+            Beyond a certain regime, safe spacing must increase.
+            That reduces aerodynamic shielding.
+            Efficiency gains flatten.
+            </p>
+
+            <p id="10percent">Cool, but why are drag savings hovering 10%?</p>
+
+            <p>
+            Even if individual vehicles see 15–17% drag reduction,
+            the total convoy rarely exceeds ~10–13%.
+            </p>
+
+            <p>
+            Assume realistic reduction factors:
+            </p>
+
+            $$
+            \alpha = [1.00, 0.90, 0.85, 0.83]
+            $$
+
+            <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:center;">
+                <thead>
+                    <tr>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Vehicle</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Reduction</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Drag (N)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:8px;">1 (Lead)</td>
+                        <td style="padding:8px;">0%</td>
+                        <td style="padding:8px;">3139</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">2</td>
+                        <td style="padding:8px;">10%</td>
+                        <td style="padding:8px;">2825</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">3</td>
+                        <td style="padding:8px;">15%</td>
+                        <td style="padding:8px;">2668</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">4</td>
+                        <td style="padding:8px;">17%</td>
+                        <td style="padding:8px;">2605</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <br>
+            <p>
+            Independent trucks:
+            </p>
+
+            $$
+            4 \times 3139 = 12{,}556 \text{ N}
+            $$
+
+            <p>
+            Platoon:
+            </p>
+
+            $$
+            3139 + 2825 + 2668 + 2605 = 11{,}237 \text{ N}
+            $$
+
+            <p>
+            Total reduction:
+            </p>
+
+            $$
+            \frac{12{,}556 - 11{,}237}{12{,}556}
+            \approx 10.5\%
+            $$
+
+            <p>
+            Even though some trucks see ~15–17% reduction,
+            the convoy average compresses to ~10%.
+            </p>
+
+            <p>
+            Add more trucks:
+            </p>
+
+            $$
+            \alpha = [1.00, 0.90, 0.85, 0.83, 0.82, 0.82]
+            $$
+
+            <p>
+            Total savings rises only to ~13%.
+            </p>
+
+            <p>
+            The lead vehicle anchors the average.
+            Diminishing returns cap improvement.
+            </p>
+
+            <p>
+            So platooning is effective,
+            but not dramatic.
+            </p>
+
+            <p>
+            Under realistic physics,
+            total drag reduction clusters between:
+            </p>
+
+            $$
+            8\% \; \text{to} \; 15\%.
+            $$
+            <p>With the organizational overhead, platooning does not seem effective (and safe) with current breaking technology.</p>
+      </div>
+
+      <div class="post-footer">Last updated: February 18, 2026</div>
+    </div>
+
+    <footer></footer>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// Multi-page Navigation (same tabs, but each tab is its own HTML file now)
+
 const navLinks = document.querySelectorAll('.nav-links li');
 const pathDisplay = document.querySelector('.path');
 
@@ -7,25 +7,26 @@ const SECTION_TO_FILE = {
     projects: 'projects.html',
     research: 'research.html',
     photos: 'photos.html',
+    blog: 'blog.html',
     classes: 'classes.html',
     contact: 'contact.html',
 };
 
 const currentSection = document.body.getAttribute('data-section') || 'about';
 
-// Highlight active tab
+
 navLinks.forEach(link => {
     const s = link.getAttribute('data-section');
     if (s === currentSection) link.classList.add('active');
     else link.classList.remove('active');
 });
 
-// Update path label (keeps original default feel for About)
+
 if (pathDisplay) {
     pathDisplay.textContent = (currentSection === 'about') ? `~/laksh` : `~/laksh/${currentSection}`;
 }
 
-// Clicking a tab navigates to that page
+
 navLinks.forEach(link => {
     link.addEventListener('click', function () {
         const targetSection = this.getAttribute('data-section');
@@ -34,18 +35,17 @@ navLinks.forEach(link => {
     });
 });
 
-// Bubble Generation and Interaction
+
 const bubbleContainer = document.getElementById('bubbleContainer');
 
-// --- Spawn rate control state ---
 const bubbleRateSlider = document.getElementById('bubbleRate');
 const bubbleRateValue = document.getElementById('bubbleRateValue');
 
-// base timing + caps (matches your current feel, but adjustable)
-const BASE_INTERVAL_MS = 2500;     // your current interval
-const MIN_INTERVAL_MS  = 100;      // fastest spawn when slider maxed
-const MAX_BUBBLES_MIN  = 6;        // minimum cap when slider at 0
-const MAX_BUBBLES_MAX  = 22;       // maximum cap when slider at 100
+
+const BASE_INTERVAL_MS = 2500;     
+const MIN_INTERVAL_MS  = 200;      
+const MAX_BUBBLES_MIN  = 12;        // minimum cap when slider at 0
+const MAX_BUBBLES_MAX  = 52;       // maximum cap when slider at 100
 
 let spawnIntervalId = null;
 let spawnIntervalMs = BASE_INTERVAL_MS;
