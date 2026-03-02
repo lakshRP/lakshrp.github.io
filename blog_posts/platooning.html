@@ -105,15 +105,15 @@
 
       <div class="post-content">
         <p>
-            Platooning in delivery is where multiple long-haul vehicles form a convoy as to avoid air resistance, promote vehicle longevity, and compartamentalize storage. Control theory research often uses platooning as a benefit of contributing more to robust multi-agent systems. However, with the marginal benefit and large organizational overhead, it does not seem very physically plausible.
+            Platooning in delivery is where multiple long-haul vehicles form a convoy as to avoid air resistance, promote vehicle longevity, and streamline logistics. Control theory research often uses platooning as a benchmark for contributing to robust multi-agent systems. However, with the marginal benefit and large organizational overhead, it does not seem very physically plausible.
         </p>
 
         <div class="center">
             <p>We can model a multi-agent system with the following control law:</p>
-            $$ x_i[k+1]  = x_i[k] +  (\sum_{j \sim i}{e_{ij}[k]}) + u[k]$$
-            <p> Where \( x_i[k] \) is the state of agent \(x_i\) @ time \(k\).</p>
-            <p> Where \( e_{ij}[k] \) is the error between neighbors \( i \sim j \) @ time \(k\).</p>
-            <p> Where \( u[k] \) is a linear control operator @ time \(k\) (if the convoy travels at 10 m/s @ time \(k=[0,10]\), \(u[k] = 10)\).</p>
+            $$ x_i[k+1]  = x_i[k] +  \left(\sum_{j \sim i}{e_{ij}[k]}\right) + f[k]$$
+            <p> Where \( x_i[k] \) is the position of agent \(i\) at time \(k\).</p>
+            <p> Where \( e_{ij}[k] \) is the error between neighbors \( i \sim j \) at time \(k\).</p>
+            <p> Where \( f[k] \) is the nominal displacement input at time \(k\) (if the convoy moves at \(10\,\text{m/s}\) over a \(1\,\text{s}\) timestep, \(f[k] = 10\,\text{m}\)).</p>
 
             <p>In convoy-style platooning, our error can be defined as the following:</p>
             $$e_{i,i-1}[k] = (x_{i-1}[k] - x_i[k]) - d$$
@@ -125,10 +125,10 @@
                 0, & \text{if} j \not = i -1 \text{.}
                 \end{cases}
             $$
-            <p>Where \(d\) is the expected distance between vehicles' CoMs
+            <p>Where \(d\) is the desired spacing between vehicles' centers of mass.
             </p>
             <p>As for simplification, I'll primarily focus on air resistance--although there are other factors. </p>
-            $$F_{net (u_i[k])} = m_{u_i[k]}a_{u_i[k]}$$
+            $$F_{\text{net},i}[k] = m_i \, a_i[k]$$
             <p>This will be modeled top down where the agents can be considered long cylinders. </p>
             <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/14ilf1l.svg" alt="drag coefficent chart">
             <p>So,</p>
@@ -136,13 +136,13 @@
              <p>Using the standard quadratic drag model,</p>
 
             $$
-            F_{\text{air}(u_i[k])}
+            F_{\text{air},i}[k]
             =
             \frac{1}{2}
             C
             \rho
             A
-            \big(u_i[k]\big)^2
+            \big(v_i[k]\big)^2
             $$
 
             <p>
@@ -152,7 +152,7 @@
             <p>\( C = 0.82 \) (drag coefficient for a long cylinder)</p>
             <p>\( \rho \approx 1.225 \, \text{kg/m}^3 \) (air density at sea level)</p>
             <p>\( A \) is the frontal cross-sectional area</p>
-            <p>\( u_i[k] \) is the velocity of vehicle \( i \) at time \( k \)</p>
+            <p>\( v_i[k] \) is the velocity of vehicle \( i \) at time \( k \)</p>
             
 
             <p>
@@ -160,13 +160,13 @@
             </p>
 
             $$
-            F_{\text{air}(u_{\mathbf{1}}[k])}
+            F_{\text{air},\mathbf{1}}[k]
             =
             \frac{1}{2}
             (0.82)
             (1.225)
             A
-            \big(u_{\mathbf{1}}[k]\big)^2
+            \big(v_{\mathbf{1}}[k]\big)^2
             $$
 
             <p>
@@ -176,14 +176,14 @@
             </p>
 
             $$
-            F_{\text{air}(u_i[k])}
+            F_{\text{air},i}[k]
             =
             \frac{1}{2}
             C
             \rho
             A
             \alpha_i
-            \big(u_i[k]\big)^2
+            \big(v_i[k]\big)^2
             $$
 
             <p>
@@ -197,9 +197,9 @@
             $$
 
             <p>
-            The reduction factor \( \alpha_i \) is implicitly dependent on spacing \( d \).
             Smaller \( d \) induces stronger aerodynamic shielding,
-            reducing drag and therefore lowering required control input magnitude.
+            reducing drag and therefore lowering required thrust.
+            The explicit dependence of \( \alpha_i \) on \( d \) is the whole story.
             </p>
 
             <p>
@@ -207,55 +207,78 @@
             </p>
 
             $$
-            m_i a_i[k]
+            m_i \, a_i[k]
             =
-            u_i[k]
+            T_i[k]
             -
             \frac{1}{2}
             C
             \rho
             A
             \alpha_i
-            \big(u_i[k]\big)^2
+            \big(v_i[k]\big)^2
             $$
 
             <p>
-                Although, the system is heavily simplified, this is how we could model such a system.
+            Where \( T_i[k] \) is the propulsive thrust (force) applied by vehicle \( i \) at time \( k \).
+            </p>
+
+            <p>
+                Although the system is heavily simplified, this is how we could model such a system.
             </p>
              <p>
-            Drag grows quadratically with speed.
+            The key thing: \( \alpha_i \) is not a fixed constant; it depends on the gap \( d \) between vehicles.
+            Wind tunnel data for trucks fits an exponential wake decay model:
             </p>
 
             $$
-            F_{\text{drag}} =
-            \frac{1}{2} C \rho A v^2
+            \alpha(d) = 1 - R_0 \, e^{-d / L}
             $$
 
             <p>
-            Stopping distance also grows quadratically:
+            where \( R_0 \approx 0.20 \) is the maximum possible drag reduction and \( L \approx 16.8 \, \text{m} \) is the aerodynamic wake decay length,
+            calibrated against experimental data: ~11% reduction at \( d = 10 \, \text{m} \), ~4.5% at \( d = 25 \, \text{m} \).
+            </p>
+
+            <p>
+            Safe following distance isn't a free parameter either. It's bounded below by kinematics:
             </p>
 
             $$
-            d_{\text{stop}} = \frac{v^2}{2a}
+            d_{\text{safe}}(v) = \frac{v^2}{2a} + 0.5 \, v
             $$
 
             <p>
-            So both benefit and risk scale with \( v^2 \).
+            where 0.5 s is the assumed V2V communication latency. Drag also grows quadratically:
+            </p>
+
+            $$
+            F_{\text{drag}} = \frac{1}{2} C \rho A v^2
+            $$
+
+            <p>
+            So both effects scale with \( v^2 \), which means stopping distance grows at the same rate as drag.
+            The question is which grows faster relative to the wake length \( L \).
             </p>
 
             <p>
-            Assume:
+            The crossover happens where stopping distance equals the wake's useful range.
+            The wake carries meaningful shielding out to roughly \( d^* \approx 23 \, \text{m} \) (where reduction falls to 5% of its maximum).
+            Setting \( d_{\text{stop}} = d^* \):
             </p>
 
-            <ul>
-                
-                <li>\( A = 10 \, m^2 \)</li>
-                <li>Max braking deceleration \( a = 5 \, m/s^2 \)</li>
-                <li>Approximate platoon reduction: 10% (I'll explain <a href="#10percent">here</a>)</li>
-            </ul>
+            $$
+            \frac{v^2}{2a} = d^* \implies v^* = \sqrt{2 \, a \, d^*} \approx \sqrt{2 \times 5 \times 23} \approx 15 \, \text{m/s} \approx 55 \, \text{km/h}
+            $$
 
             <p>
-            Compare speeds:
+            Above ~55 km/h, stopping distance exceeds the aerodynamic wake length.
+            You are forced to space farther than the wake extends, and \( \alpha_i \to 1 \), so shielding collapses.
+            </p>
+
+            <p>
+            Assume \( A = 10 \, \text{m}^2 \), \( a = 5 \, \text{m/s}^2 \), and autonomous headway \( t_r = 0.5 \, \text{s} \) (representative of current V2V communication latency).
+            4-truck platoon:
             </p>
 
             <div style="overflow-x:auto;">
@@ -263,169 +286,99 @@
                 <thead>
                     <tr>
                         <th style="padding:8px; border-bottom:1px solid #ccc;">Speed (m/s)</th>
-                        <th style="padding:8px; border-bottom:1px solid #ccc;">Drag (N)</th>
-                        <th style="padding:8px; border-bottom:1px solid #ccc;">10% Savings (N)</th>
-                        <th style="padding:8px; border-bottom:1px solid #ccc;">Stopping Distance (m)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Speed (km/h)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Safe gap (m)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">Follower \(\alpha\)</th>
+                        <th style="padding:8px; border-bottom:1px solid #ccc;">4-truck savings</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding:8px;">15</td>
-                        <td style="padding:8px;">1130</td>
-                        <td style="padding:8px;">113</td>
-                        <td style="padding:8px;">22.5</td>
+                        <td style="padding:8px;">10</td>
+                        <td style="padding:8px;">36</td>
+                        <td style="padding:8px;">15.0</td>
+                        <td style="padding:8px;">0.918</td>
+                        <td style="padding:8px;">6.9%</td>
+                    </tr>
+                    <tr style="background:#fff8e1;">
+                        <td style="padding:8px;"><strong>15</strong></td>
+                        <td style="padding:8px;"><strong>54</strong></td>
+                        <td style="padding:8px;"><strong>30.0</strong></td>
+                        <td style="padding:8px;"><strong>0.967</strong></td>
+                        <td style="padding:8px;"><strong>2.8% <- crossover</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;">20</td>
+                        <td style="padding:8px;">72</td>
+                        <td style="padding:8px;">50.0</td>
+                        <td style="padding:8px;">0.990</td>
+                        <td style="padding:8px;">0.9%</td>
                     </tr>
                     <tr>
                         <td style="padding:8px;">25</td>
-                        <td style="padding:8px;">3139</td>
-                        <td style="padding:8px;">314</td>
-                        <td style="padding:8px;">62.5</td>
+                        <td style="padding:8px;">90</td>
+                        <td style="padding:8px;">75.0</td>
+                        <td style="padding:8px;">0.998</td>
+                        <td style="padding:8px;">0.2%</td>
                     </tr>
                     <tr>
                         <td style="padding:8px;">35</td>
-                        <td style="padding:8px;">6155</td>
-                        <td style="padding:8px;">616</td>
-                        <td style="padding:8px;">122.5</td>
+                        <td style="padding:8px;">126</td>
+                        <td style="padding:8px;">140.0</td>
+                        <td style="padding:8px;">1.000</td>
+                        <td style="padding:8px;">~0%</td>
                     </tr>
                     <tr>
                         <td style="padding:8px;">45</td>
-                        <td style="padding:8px;">10178</td>
-                        <td style="padding:8px;">1018</td>
-                        <td style="padding:8px;">202.5</td>
+                        <td style="padding:8px;">162</td>
+                        <td style="padding:8px;">225.0</td>
+                        <td style="padding:8px;">1.000</td>
+                        <td style="padding:8px;">~0%</td>
                     </tr>
                 </tbody>
             </table>
             </div>
 
             <p>
-            At low speed, platooning barely matters.
+            This is the crux of it.
+            As speed increases, drag grows with \( v^2 \), which naively makes platooning more appealing.
+            But safe spacing also grows with \( v^2 \), pushing followers outside the wake faster.
+            The two effects nearly cancel, and above ~55 km/h the spacing requirement wins.
             </p>
 
             <p>
-            At highway speed (~25 m/s), savings become meaningful.
+            Highway platooning at 90 km/h with autonomous latency gives under 1% total savings.
+            That's essentially noise.
+            </p>
+
+            <p id="10percent">So where do the 10–15% figures in the literature come from?</p>
+
+            <p>
+            Those numbers are measured at very tight gaps — 4 to 10 meters — which are only achievable with
+            sub-100ms autonomous reaction times and assume no emergency braking scenario.
+            At \( d = 10 \, \text{m} \) and \( v = 25 \, \text{m/s} \), stopping distance alone is 62.5 m.
+            You'd rear-end the lead vehicle before your brakes fully engaged.
             </p>
 
             <p>
-            At high speed (35+ m/s), savings grow —
-            but stopping distance doubles.
+            The 10% figure is physically real but the conditions that produce it are not operationally safe.
+            At any gap that gives genuine safety margins, savings collapse well below that.
             </p>
 
             <p>
-            Beyond a certain regime, safe spacing must increase.
-            That reduces aerodynamic shielding.
-            Efficiency gains flatten.
-            </p>
-
-            <p id="10percent">Cool, but why are drag savings hovering 10%?</p>
-
-            <p>
-            Even if individual vehicles see 15–17% drag reduction,
-            the total convoy rarely exceeds ~10–13%.
-            </p>
-
-            <p>
-            Assume realistic reduction factors:
+            The lead vehicle anchors the average regardless;
+            it sees zero benefit and carries full drag.
+            Diminishing returns hit fast after vehicle 2.
+            Under any realistic safe spacing, total convoy reduction sits closer to:
             </p>
 
             $$
-            \alpha = [1.00, 0.90, 0.85, 0.83]
+            1\% \; \text{to} \; 7\%
             $$
 
-            <div style="overflow-x:auto;">
-            <table style="width:100%; border-collapse:collapse; text-align:center;">
-                <thead>
-                    <tr>
-                        <th style="padding:8px; border-bottom:1px solid #ccc;">Vehicle</th>
-                        <th style="padding:8px; border-bottom:1px solid #ccc;">Reduction</th>
-                        <th style="padding:8px; border-bottom:1px solid #ccc;">Drag (N)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding:8px;">1 (Lead)</td>
-                        <td style="padding:8px;">0%</td>
-                        <td style="padding:8px;">3139</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:8px;">2</td>
-                        <td style="padding:8px;">10%</td>
-                        <td style="padding:8px;">2825</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:8px;">3</td>
-                        <td style="padding:8px;">15%</td>
-                        <td style="padding:8px;">2668</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:8px;">4</td>
-                        <td style="padding:8px;">17%</td>
-                        <td style="padding:8px;">2605</td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            <br>
-            <p>
-            Independent trucks:
-            </p>
+            <p>depending on speed and headway regime.</p>
 
-            $$
-            4 \times 3139 = 12{,}556 \text{ N}
-            $$
-
-            <p>
-            Platoon:
-            </p>
-
-            $$
-            3139 + 2825 + 2668 + 2605 = 11{,}237 \text{ N}
-            $$
-
-            <p>
-            Total reduction:
-            </p>
-
-            $$
-            \frac{12{,}556 - 11{,}237}{12{,}556}
-            \approx 10.5\%
-            $$
-
-            <p>
-            Even though some trucks see ~15–17% reduction,
-            the convoy average compresses to ~10%.
-            </p>
-
-            <p>
-            Add more trucks:
-            </p>
-
-            $$
-            \alpha = [1.00, 0.90, 0.85, 0.83, 0.82, 0.82]
-            $$
-
-            <p>
-            Total savings rises only to ~13%.
-            </p>
-
-            <p>
-            The lead vehicle anchors the average.
-            Diminishing returns cap improvement.
-            </p>
-
-            <p>
-            So platooning is effective,
-            but not dramatic.
-            </p>
-
-            <p>
-            Under realistic physics,
-            total drag reduction clusters between:
-            </p>
-
-            $$
-            8\% \; \text{to} \; 15\%.
-            $$
-            <p>With the organizational overhead, platooning does not seem effective (and safe) with current breaking technology.</p>
+            <p>With the organizational overhead, platooning does not seem effective (and safe) with current braking technology.</p>
       </div>
 
       <div class="post-footer">Last updated: February 18, 2026</div>
@@ -433,7 +386,6 @@
 
     <footer></footer>
   </div>
-
   <script src="../script.js"></script>
 </body>
 </html>

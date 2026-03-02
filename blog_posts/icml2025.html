@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platooning in Theory</title>
+  <link rel="icon" href="../favicon.ico" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\$', '\\$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+  <style>
+    .center{
+        text-align: center;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .back-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      text-decoration:none;
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.10);
+      opacity:.95;
+      transition:transform 140ms ease, opacity 140ms ease;
+      flex:0 0 auto;
+    }
+    .back-btn:hover{
+      transform:translateY(-1px);
+      opacity:1;
+    }
+    .back-btn:active{
+      transform:translateY(0px) scale(0.98);
+    }
+    .back-btn:focus-visible{
+      outline:3px solid rgba(0,0,0,0.18);
+      outline-offset:3px;
+    }
+    .back-btn svg{
+      width:20px;
+      height:20px;
+    }
+    .post-card{
+      background:#fff;
+      border-radius:18px;
+      padding:26px;
+      margin-top:18px;
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .post-title{ margin:0; }
+    .post-meta{
+      margin:8px 0 18px 0;
+      opacity:.7;
+      font-size:14px;
+    }
+    .post-content{ line-height:1.65; }
+    .post-content p{ margin:0 0 14px 0; }
+    .post-content h3{ margin:22px 0 10px 0; }
+    .post-content ul{ margin:0 0 14px 18px; }
+    .post-footer{
+      margin-top:22px;
+      opacity:.7;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bubble-container" id="bubbleContainer"></div>
+
+  <div class="container">
+    <header>
+      <div class="intro">
+        <div class="path">~/laksh/blog</div>
+        <h1>Laksh Patel</h1>
+      </div>
+    </header>
+
+    <div class="post-card">
+      <div class="topbar">
+        <a class="back-btn" href="../blog.html" aria-label="Back to blog" title="Back to blog">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <h2 class="post-title">42nd International Conference on Machine Learning</h2>
+      <div class="post-meta">July 12, 2025</div>
+      
+      <div class="post-content">
+      </div>
+
+      <div class="post-footer">Last updated: February 18, 2026</div>
+    </div>
+
+    <footer></footer>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
