@@ -35,7 +35,7 @@
         </nav>
 
         <!-- Photos Section -->
-        <section id="blog" class="section active">
+        <section id="photos" class="section active">
             <h2>Favorite Photos</h2>
             <p></p>
 
@@ -49,24 +49,62 @@
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
     <script>
-      function renderPhotos(items) {
+      var fallbackPhotos = [
+        { id: "1SNhxtIyqb0P5fgvxq1JJrSGqFrFgfBbU", name: "cube_exchange.HEIC" },
+        { id: "1SDufI72jcA-T4DH-gfxih34pAiTikXvk", name: "garba_season.HEIC" },
+        { id: "1HI5gQmoHcLmTBRVKB2LyvvFyWhO8EOnY", name: "gaslamp_district.jpeg" },
+        { id: "1UEZ1wnVuHjVkeBZntHxYzniJHgHQMLIH", name: "Icml1.JPG" },
+        { id: "1IJ6aJv3zPX4JDhl8_HYbv4ZXpdn53u_X", name: "neurips_cruise.jpeg" },
+        { id: "1FbVMg6C52ON3v__BaevqSIq0cHLPgQYO", name: "Neurips.HEIC" },
+        { id: "1FeurCjwIgOVJDQ_hk5idASYj6zohSH5c", name: "sandiego.jpeg" },
+        { id: "1UBVZsH3TSlPrhI-4lnFLqMkNw8zU44Gv", name: "seals_at_la_jolla.HEIC" },
+        { id: "1tyjIssuN0Shqgadv2V1vWvDnRYbE2Bo_", name: "socal_bird.jpeg" },
+        { id: "1imPbB9nUFMDghNmSVDyUvDFEGa9TLuhR", name: "socal_flowers.jpeg" },
+        { id: "1SUT6woMPoYoP4gQWUjz2fkkf714eWNNP", name: "socal_food.jpeg" },
+        { id: "1H1rVfUbDxw4eVDEQ3qKcu8nWPcQ-YP0S", name: "sushi1.HEIC" },
+        { id: "1U1iIF0vFdal6OMzv4yfLnsQGfBO98x7B", name: "sushi2.JPG" },
+        { id: "1MLRz2X9LzeLSS9CSUyRov2LOS4Vr_g-l", name: "trip_to_ascte.HEIC" },
+        { id: "1-vGb7u15t159fK7A70-AAOy4RegK207L", name: "trip_to_rice_uni.jpeg" },
+        { id: "1MUMsRnZLQrp6TzLHxp7h2vnFFjwgoNsG", name: "trip_to_uic.HEIC" },
+        { id: "1br62a5QJ-LnYakY-GsN7qkAtLV71Y04Y", name: "vishal_concert.HEIC" }
+      ];
+
+      function driveThumb(id, w) { return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + (w || 1400); }
+      function driveView(id) { return "https://drive.google.com/uc?export=view&id=" + id; }
+
+      function captionAsIpynb(name) {
+        if (!name) return "";
+        var lastDot = name.lastIndexOf(".");
+        var base = (lastDot > 0) ? name.slice(0, lastDot) : name; // remove last extension
+        return base + ".ipynb";
+      }
+
+      function normalizeItems(items) {
+        if (Array.isArray(items)) return items;
+        if (items && Array.isArray(items.items)) return items.items;
+        return [];
+      }
+
+      function bindGridGuards(grid) {
+        if (grid.dataset.guardsBound === "1") return;
+        grid.addEventListener("click", function (e) { e.preventDefault(); });
+        grid.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+        grid.addEventListener("dragstart", function (e) { e.preventDefault(); });
+        grid.dataset.guardsBound = "1";
+      }
+
+      window.renderPhotos = function(items) {
         var grid = document.getElementById("photoGrid");
         if (!grid) return;
 
+        var normalized = normalizeItems(items);
+        if (!normalized.length) return;
+
         grid.innerHTML = "";
 
-        function driveThumb(id, w) { return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + (w || 1400); }
-        function driveView(id) { return "https://drive.google.com/uc?export=view&id=" + id; }
-
-        function captionAsIpynb(name) {
-          if (!name) return "";
-          var lastDot = name.lastIndexOf(".");
-          var base = (lastDot > 0) ? name.slice(0, lastDot) : name; // remove last extension
-          return base + ".ipynb";
-        }
-
-        items.forEach(function (it) {
+        normalized.forEach(function (it) {
           var id = it.id;
+          if (!id) return;
 
           var item = document.createElement("div");
           item.className = "photo-item";
@@ -87,11 +125,11 @@
           grid.appendChild(item);
         });
 
-        // extra safety: prevent click/contextmenu/drag inside the grid
-        grid.addEventListener("click", function (e) { e.preventDefault(); });
-        grid.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-        grid.addEventListener("dragstart", function (e) { e.preventDefault(); });
-      }
+        bindGridGuards(grid);
+      };
+
+      // Render local fallback first so the page is never blank.
+      window.renderPhotos(fallbackPhotos);
     </script>
 
     <script src="https://script.google.com/macros/s/AKfycbyJZ7e1sN2Nmn_y3sCax6OjVQncDao_B1PR7K13DkGbhNgU-VzTNVXcmReiaBMjzKma7Q/exec?callback=renderPhotos"></script>
