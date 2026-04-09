@@ -128,7 +128,7 @@ nav {
     margin-bottom: 3rem;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid #e5e7eb;
 }
 
@@ -474,6 +474,22 @@ a:hover{
 
     .nav-links {
         gap: 1.5rem;
+    }
+
+    /* Keep index about content in a strict top-to-bottom stack on mobile. */
+    #about.section.active {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+
+    #about.section.active > :first-child {
+        order: 1;
+    }
+
+    #about.section.active > :last-child {
+        order: 2;
+        max-width: 100% !important;
     }
 }
 
